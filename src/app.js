@@ -1,9 +1,10 @@
-import cors from 'cors';
-import express from 'express';
-import dotenv from 'dotenv';
+import cors     from 'cors';
+import express  from 'express';
+import dotenv   from 'dotenv';
 
-import { signUp } from './routers/signupRouter.js';
-import { signIn } from './routers/signinRouter.js';
+import { signUp }       from './routers/signupRouter.js';
+import { signIn }       from './routers/signinRouter.js';
+import { operations }   from './routers/operationsRouter.js'
 
 
 
@@ -18,6 +19,7 @@ const PORT = 5000;
 
 api.use(signUp);
 api.use(signIn);
+api.use(operations);
 
 
 api.listen(PORT, () => console.log(`Server is Running at port ${PORT}`));

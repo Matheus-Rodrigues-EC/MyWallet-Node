@@ -1,6 +1,4 @@
 import bcrypt from "bcrypt";
-import dotenv from "dotenv/config"
-import express from "express";
 import Joi from "joi";
 import { MongoClient } from 'mongodb';
 import { v4 as uuid } from 'uuid';
@@ -39,13 +37,17 @@ const signInUser = async (req, res) => {
 
     if(!user) return res.status(404).send("Usuário não encontrado");
 
-    if(user && bcrypt.compareSync(password, user.password)) {
-        const token = uuid();
-		await db.collection("sessions").insertOne({userId: user._id,token})
-        return res.status(200).send(token);
-    } else {
+    try{
+        if(user && bcrypt.compareSync(password, user.password)) {
+            const token = uuid();
+            await db.collection("sessions").insertOne({userId: user._id,token})
+            return res.status(200).send(token);
+        } 
+    }catch(error){
         return res.status(401).send("Email ou Senha Incorreto(s)")
     }
+
+    
 }
 
 export {
