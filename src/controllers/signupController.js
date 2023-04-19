@@ -59,11 +59,6 @@ const signUpUser = async (req, res) => {
     }
 }
 
-const Teste = async (req, res) => {
-    console.log("teste");
-}
-
 export {
-        signUpUser,
-        Teste
+        signUpUser
     }
