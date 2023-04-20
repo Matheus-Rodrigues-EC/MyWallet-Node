@@ -14,6 +14,7 @@ mongoClient.connect()
 
 const logOutUser = async (req, res) => {
     const auth = req.headers.authorization;
+    if(!auth) return res.sendStatus(401);
 
     const token = auth.replace('Baerer ', '');
     try{

@@ -4,8 +4,9 @@ import dotenv   from 'dotenv';
 
 import { signUp }       from './routers/signupRouter.js';
 import { signIn }       from './routers/signinRouter.js';
+import { list }         from './routers/listOperationsRouter.js';
 import { operations }   from './routers/operationsRouter.js';
-import { logOutUser }       from './controllers/logoutController.js';
+import { logOutUser }   from './controllers/logoutController.js';
 
 
 
@@ -21,6 +22,7 @@ const PORT = 5000;
 
 api.use(signUp);
 api.use(signIn);
+api.use(list);
 api.use(operations);
 api.use(logOutUser);
 

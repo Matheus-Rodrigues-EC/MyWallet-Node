@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import Joi from "joi";
 import { MongoClient } from 'mongodb';
-import { v4 as uuid } from 'uuid';
 
 // Conexão com o Banco
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
