@@ -27,6 +27,7 @@ const operationsSchema = Joi.object({
 const operationIn = async (req, res) => {
     const { value, description } = req.body;
     const auth = req.headers.authorization;
+    let session;
 
     if(!auth) return res.sendStatus(401);
 
@@ -36,18 +37,23 @@ const operationIn = async (req, res) => {
 
     try{
         const token = auth.replace('Baerer ', '');
-        const user = await db.collection("sessions").findOne({token: token})
-        if(!user){
-            return res.status(422).send("Token inválido");
-        }
+        session = await db.collection("sessions").findOne({token: token})
+        if(!session) return res.status(422).send("Token inválido");
     }catch(error){
         return res.sendStatus(422);
     }
 
     try{
+        await db.collection().findOne()
+    }catch(error){
+
+    }
+
+    try{
         const day = dayjs().format("DD/MM");
         await db.collection("transactions").insertOne({
-            day: day,
+            userId: session.userId,
+            date: day,
             value: value,
             description: description,
             type: "entrada"
@@ -61,6 +67,7 @@ const operationIn = async (req, res) => {
 const operationOut = async (req, res) => {
     const { value, description } = req.body;
     const auth = req.headers.authorization;
+    let session;
 
     if(!auth) return res.sendStatus(401);
 
@@ -70,10 +77,8 @@ const operationOut = async (req, res) => {
 
     try{
         const token = auth.replace('Baerer ', '');
-        const user = await db.collection("sessions").findOne({token: token})
-        if(!user){
-            return res.status(422).send("Token inválido");
-        }
+        session = await db.collection("sessions").findOne({token: token})
+        if(!session)  return res.status(422).send("Token inválido");
     }catch(error){
         return res.sendStatus(422);
     }
@@ -81,7 +86,8 @@ const operationOut = async (req, res) => {
     try{
         const day = dayjs().format("DD/MM");
         await db.collection("transactions").insertOne({
-            day: day,
+            userId: session.userId,
+            date: day,
             value: value,
             description: description,
             type: "saida"

@@ -18,7 +18,7 @@ mongoClient.connect()
 
 const signUpUser = async (req, res) => {
 
-    const { name, email, password, re_password } = req.body;
+    const { name, email, password} = req.body;
 
     const signUpSchema = Joi.object({
         Name: Joi.string()
@@ -31,14 +31,12 @@ const signUpUser = async (req, res) => {
 
         Password: Joi.string()
                 .min(3)
-                .required(),
-    
-        repeat_password: Joi.ref('Password'),
+                .required()
     })
 
-    if(signUpSchema.validate({Name: name, Email: email, Password: password, repeat_password: re_password}).error !== undefined){
+    if(signUpSchema.validate({Name: name, Email: email, Password: password}).error !== undefined){
         return res.status(422).send(signUpSchema.validate(
-            {Name: name, Email: email, Password: password, repeat_password: re_password}
+            {Name: name, Email: email, Password: password}
             ).error.message)
     }
 
