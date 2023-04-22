@@ -25,11 +25,21 @@ const signInUser = async (req, res) => {
                 .required(),
 
         Password: Joi.string()
-                    .min(3)
                     .required()
     });
 
     if(signInSchema.validate({Email: email, Password: password}).error !== undefined){
+        if(signInSchema.validate({Email: email, Password: password}).error.message === '"Email" is required'){
+            return res.status(422).send("O campo EMAIL é obrigatório");
+        }
+        if(signInSchema.validate({Email: email, Password: password}).error.message === '"Email" must be a valid email'){
+            return res.status(422).send("O campo EMAIL deve conter um email válido");
+        }
+        if(signInSchema.validate({Email: email, Password: password}).error.message === '"Password" is required'){
+            return res.status(422).send("O campo SENHA é obrigatório");
+        }
+
+        //"Email" is not allowed to be empty  "Email" must be a valid email
         return res.status(422).send(signInSchema.validate({Email: email, Password: password}).error.message);
     }
 
@@ -43,7 +53,7 @@ const signInUser = async (req, res) => {
             await db.collection("sessions").insertOne({userId: user._id,token})
             return res.status(200).send({token: token});
         }else{
-            return res.status(401).send("Email ou Senha Incorreto(s)");
+            return res.status(401).send("Email e/ou Senha Incorreto(s)");
         }
     }catch(error){
         return res.status(401).send(error);
