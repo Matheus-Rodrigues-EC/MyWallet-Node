@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 
 // Conexão com o Banco
-const mongoClient = new MongoClient(process.env.DATABASE_URL);
+const mongoClient = new MongoClient(process.env.MONGO_URI);
 let db;
 
 mongoClient.connect()

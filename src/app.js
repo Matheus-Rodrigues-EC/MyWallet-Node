@@ -12,7 +12,7 @@ const api = express();
 api.use(cors());
 api.use(express.json());
 dotenv.config();
-const PORT = 5000;
+// const PORT = 5000;
 // End Declaring coonfigurations ------------------------------------------------------------
 
 api.use(signUp);
@@ -20,4 +20,6 @@ api.use(signIn);
 api.use(list);
 api.use(operations);
 
-api.listen(PORT, () => console.log(`Server is Running at port ${PORT}`));
+api.listen(process.env.PORT, () => {
+    console.log("Server running on port " + process.env.PORT)
+});
