@@ -16,7 +16,7 @@ const listOperations = async (req, res) => {
     let session;
     let user;
     const auth = req.headers.authorization;
-    if(!auth) return res.status(422).send("Token não enviado");
+    if(!auth) return res.status(401).send("Token não enviado");
 
     const token = auth.replace('Baerer ', '');
     try{

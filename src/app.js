@@ -6,10 +6,6 @@ import { signUp }       from './routers/signupRouter.js';
 import { signIn }       from './routers/signinRouter.js';
 import { list }         from './routers/listOperationsRouter.js';
 import { operations }   from './routers/operationsRouter.js';
-import { logOutUser }   from './controllers/logoutController.js';
-
-
-
 
 // Begin Declaring coonfigurations ----------------------------------------------------------
 const api = express();
@@ -19,12 +15,9 @@ dotenv.config();
 const PORT = 5000;
 // End Declaring coonfigurations ------------------------------------------------------------
 
-
 api.use(signUp);
 api.use(signIn);
 api.use(list);
 api.use(operations);
-api.use(logOutUser);
-
 
 api.listen(PORT, () => console.log(`Server is Running at port ${PORT}`));
