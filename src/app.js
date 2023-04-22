@@ -12,7 +12,6 @@ const api = express();
 api.use(cors());
 api.use(express.json());
 dotenv.config();
-// const PORT = 5000;
 // End Declaring coonfigurations ------------------------------------------------------------
 
 api.use(signUp);

@@ -35,7 +35,7 @@ const listOperations = async (req, res) => {
 
     try{
         const list = await db.collection("transactions").find({userId: session.userId}).toArray();
-        const DATA = {user, list};
+        const DATA = {username: user.name, list};
         return res.status(200).send(DATA);
     }catch(error){
         return res.status(50).send(error)
