@@ -1,24 +1,12 @@
 import bcrypt from "bcrypt";
-import Joi from "joi";
-import { MongoClient } from 'mongodb';
+import db from "../db.js";
 import { v4 as uuid } from 'uuid';
-
-// Conexão com o Banco
-const mongoClient = new MongoClient(process.env.MONGO_URI);
-let db;
-
-mongoClient.connect()
-    .then(() => {
-        console.log("DataBase Connected...")
-        db = mongoClient.db()
-    })
-    .catch((error) => console.log(error.message));
-//------------------------------------------------------------------
 
 const signInUser = async (req, res) => {
 
     const { email, password } = req.body;
 
+    console.log(db)
     const user = await db.collection("users").findOne({email: email});
 
     if(!user) return res.status(404).send("Usuário não encontrado");
