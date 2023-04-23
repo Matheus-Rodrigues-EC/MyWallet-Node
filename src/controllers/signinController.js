@@ -6,7 +6,6 @@ const signInUser = async (req, res) => {
 
     const { email, password } = req.body;
 
-    console.log(db)
     const user = await db.collection("users").findOne({email: email});
 
     if(!user) return res.status(404).send("Usuário não encontrado");
