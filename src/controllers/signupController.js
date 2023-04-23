@@ -20,25 +20,7 @@ const signUpUser = async (req, res) => {
 
     const { name, email, password} = req.body;
 
-    const signUpSchema = Joi.object({
-        Name: Joi.string()
-                .min(3)
-                .required(),
-
-        Email: Joi.string()
-                .email()
-                .required(),
-
-        Password: Joi.string()
-                .min(3)
-                .required()
-    })
-
-    if(signUpSchema.validate({Name: name, Email: email, Password: password}).error !== undefined){
-        return res.status(422).send(signUpSchema.validate(
-            {Name: name, Email: email, Password: password}
-            ).error.message)
-    }
+    
 
     const verify = await db.collection("users").findOne({email: email});
     if(verify) return res.status(409).send("Email já cadastrado.");
