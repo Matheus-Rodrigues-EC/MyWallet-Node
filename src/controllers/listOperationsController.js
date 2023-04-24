@@ -1,4 +1,5 @@
 import db from "../db.js";
+import { ObjectId } from "mongodb";
 
 const listOperations = async (req, res) => {
     let session;
@@ -30,4 +31,37 @@ const listOperations = async (req, res) => {
     }
 }
 
-export {listOperations}
+const deleteOperation = async (req, res) => {
+    
+    const auth = req.headers.authorization;
+    const id = req.headers.id;
+    if(!auth) return res.status(422).send("Token Não enviado");
+
+    const token = auth.replace('Baerer ', '');
+
+    try{
+        const session = await db.collection("sessions").findOne({token: token});
+        if(!session) return res.status(401).send("Não autorizado");
+
+        const del = await db.collection("transactions").deleteOne({_id: new ObjectId(id)})
+        if(!del) return res.status(404).send("Operação não encontrada");
+        console.log(del)
+        return res.status(202).send("Deleted...")
+
+    }catch(error){
+        return res.status(422).send(error);
+        
+    }
+    
+
+    // try{
+    //     
+    // }catch(error){
+    //     return res.status(422).send(error);
+    // }
+}
+
+export {
+        listOperations,
+        deleteOperation
+    }

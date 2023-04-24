@@ -17,12 +17,6 @@ const operationIn = async (req, res) => {
     }
 
     try{
-        await db.collection().findOne()
-    }catch(error){
-
-    }
-
-    try{
         const day = dayjs().format("DD/MM");
         await db.collection("transactions").insertOne({
             userId: session.userId,
